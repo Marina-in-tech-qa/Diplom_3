@@ -1,0 +1,21 @@
+
+# Виртуальное окружение
+venv/
+.venv/
+
+# Кеш Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Результаты и отчеты Allure
+allure_results/
+allure-results/
+allure-report/
+
+# Настройки редактора
+.vscode/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
