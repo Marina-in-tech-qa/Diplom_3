@@ -6,46 +6,38 @@ from urls import BASE_URL
 
 
 @allure.feature("Навигация")
-@allure.title("Переход из конструктора в ленту заказов")
-def test_go_to_order_feed(driver):
-    page = ConstructorPage(driver)
+class TestNavigation:
 
-    # Открыть главную страницу
-    with allure.step("Открыть конструктор"):
-        page.open(BASE_URL)
+    # Проверить переход из конструктора в ленту заказов
+    @allure.title("Переход из конструктора в ленту заказов")
+    def test_go_to_order_feed(self, driver):
+        page = ConstructorPage(driver)
 
-    # Перейти в ленту заказов
-    with allure.step("Нажать кнопку «Лента заказов»"):
-        page.click_order_feed()
+        # Открыть главную страницу
+        with allure.step("Открыть конструктор"):
+            page.open(BASE_URL)
 
-    # Проверить переход
-    with allure.step("Проверить открытие ленты заказов"):
-        page.wait.until(
-            lambda browser: browser.current_url.rstrip("/")
-            == f"{BASE_URL}/feed"
-        )
+        # Перейти в ленту заказов
+        with allure.step("Нажать кнопку «Лента заказов»"):
+            page.click_order_feed()
 
-        assert driver.current_url.rstrip("/") == f"{BASE_URL}/feed"
+        # Проверить переход в ленту заказов
+        with allure.step("Проверить открытие ленты заказов"):
+            assert page.is_order_feed_opened()
 
+    # Проверить переход из ленты заказов в конструктор
+    @allure.title("Переход из ленты заказов в конструктор")
+    def test_go_to_constructor(self, driver):
+        page = ConstructorPage(driver)
 
-@allure.feature("Навигация")
-@allure.title("Переход из ленты заказов в конструктор")
-def test_go_to_constructor(driver):
-    page = ConstructorPage(driver)
+        # Открыть ленту заказов
+        with allure.step("Открыть ленту заказов"):
+            page.open(f"{BASE_URL}/feed")
 
-    # Открыть ленту заказов
-    with allure.step("Открыть ленту заказов"):
-        page.open(f"{BASE_URL}/feed")
+        # Перейти в конструктор
+        with allure.step("Нажать кнопку «Конструктор»"):
+            page.click_constructor()
 
-    # Перейти в конструктор
-    with allure.step("Нажать кнопку «Конструктор»"):
-        page.click_constructor()
-
-    # Проверить переход
-    with allure.step("Проверить открытие конструктора"):
-        page.wait.until(
-            lambda browser: browser.current_url.rstrip("/")
-            == BASE_URL
-        )
-
-        assert driver.current_url.rstrip("/") == BASE_URL
+        # Проверить переход в конструктор
+        with allure.step("Проверить открытие конструктора"):
+            assert page.is_constructor_opened()

@@ -1,8 +1,12 @@
 
 import allure
 
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+
 from pages.base_page import BasePage
 from locators.login_locators import LoginLocators
+from urls import BASE_URL
 
 
 class LoginPage(BasePage):
@@ -21,3 +25,13 @@ class LoginPage(BasePage):
         self.click_element(
             LoginLocators.LOGIN_BUTTON
         )
+
+    # Проверить успешную авторизацию по переходу на главную страницу
+    @allure.step("Проверить успешный переход на главную страницу")
+    def is_login_successful(self):
+        try:
+            return self.wait.until(
+                EC.url_to_be(BASE_URL + "/")
+            )
+        except TimeoutException:
+            return False
